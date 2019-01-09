@@ -31,23 +31,66 @@ getGradesOfStudent <- function(con, matriculationNumber) {
 }
 
 # Notenschnitte aller Studierenden
-getMeanOfAllStudents <- function(con) {
-    #con <- connecttodb()
-  sqlStatement <-
+getMeanOfAllStudents <- function(con, removeZeroes = TRUE) {
+  #con <- connecttodb()
+  sqlStatementgrades <-
     sprintf(
       "SELECT matriculation_number_id as matriculation_number, grade
       FROM studentmanager_grimmeisen_scholtz.studentmanager_result"
     )
-  gradeFrame <- dbGetQuery(con, sqlStatement)
+  gradeFrame <- dbGetQuery(con, sqlStatementgrades)
   #print(gradeFrame)
   
-  if (is.data.frame(gradeFrame) && ncol(gradeFrame) == 2) {
-    uniquestudents <- unique(gradeFrame[, 'matriculation_number'])
+  sqlStatementstudents <-
+    sprintf(
+      "SELECT DISTINCT matriculation_number
+      FROM studentmanager_grimmeisen_scholtz.studentmanager_student"
+    )
+  studentFrame <- dbGetQuery(con, sqlStatementstudents)
+  
+  if (is.data.frame(gradeFrame) &&
+      ncol(gradeFrame) == 2 &&
+      is.data.frame(studentFrame) && ncol(studentFrame) == 1) {
+    uniquestudents <- unique(studentFrame[, 'matriculation_number'])
     #uniquestudents
     #print(uniquestudents)
+    studentmean <-
+      data.frame(
+        Student = character(),
+        Mean = double(),
+        stringsAsFactors = FALSE
+      )
     for (student in uniquestudents) {
-      print(getMeanOfStudent(con, student))
+      meanofstudent <- getMeanOfStudent(con, student)
+      if (removeZeroes == TRUE) {
+        if (meanofstudent > 0) {
+          studentmean[nrow(studentmean) + 1, ] = list(as.character(student), meanofstudent)
+        }
+      } else if (removeZeroes == FALSE) {
+        studentmean[nrow(studentmean) + 1, ] = list(as.character(student), meanofstudent)
+      }
     }
+  }
+  return (studentmean)
+}
+
+# Median der Notenschnitte
+getMedianOfGrades <- function(con, removeZeroes = TRUE) {
+  Studentmean <-
+    getMeanOfAllStudents(con, removeZeroes = removeZeroes)
+  if (is.data.frame(Studentmean) && ncol(Studentmean) == 2) {
+    median(Studentmean[, "Mean"])
+  } else {
+    0
+  }
+}
+
+#Standardabweichung der Notenschnitte
+getSdOfGrades <- function(con, removeZeroes = TRUE) {
+  Studentmean <-
+    getMeanOfAllStudents(con, removeZeroes = removeZeroes)
+  if (is.data.frame(Studentmean) && ncol(Studentmean) == 2) {
+    sd(Studentmean[, "Mean"])
   } else {
     0
   }

@@ -1,7 +1,10 @@
 source("R/dbconnect.R")
 source("R/student.R")
 source("R/exam.R")
+source("R/visualization.R")
 
+library(ggplot2)
+library(dplyr)
 #connect to DB
 con <- connecttodb()
 
@@ -13,22 +16,30 @@ Noteneinesstudenten <- getGradesOfStudent(con, '45734')
 #result <- getMeanOfStudent(con, '45734')
 
 # - Alle Noten einer bestimmten Prüfung
-#Noteneinerprüfung <- getGradesOfExam(con, '1000')
+Noteneinerprüfung <- getGradesOfExam(con, '1000')
 
 # - Notenschnitt einer bestimmten Prüfung
 #Notenschnitt <- getMeanOfExam(con, '1000')
 
 # - Notenschnitte aller Studierenden
-print('function call')
-Notenallerstudenten <- getMeanOfAllStudents(con)
+Notenallergeprüftenstudenten <- getMeanOfAllStudents(con)
+#Notenallerstudenten <- getMeanOfAllStudents(con, removeZeroes = FALSE)
 
 # - Median der Notenschnitte
+#Medianderschnitte <- getMedianOfGrades(con)
 
 # - Standardabweichung der Notenschnitte
+#Standardabweichungderschnitte <- getSdOfGrades(con)
 
 # - Zeichnen Sie geeignete Diagramme zur Visualisierung der Daten mit Hilfe von ggplot
 #  - Noten einer bestimmten Prüfung
+#createOfBoxplot(Noteneinerprüfung)
+#boxplot(Noteneinesstudenten)
 #  - Notenschnitte aller Studierenden
+createOfBoxplot(Notenallergeprüftenstudenten$Mean)
+
+
+
 
 #disconnect from DB
 if (dbDisconnect(conn = con)) {

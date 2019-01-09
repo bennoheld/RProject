@@ -3,7 +3,7 @@ getMeanOfExam <- function(con, examID) {
   sqlStatement <-
     sprintf(
       "SELECT grade FROM studentmanager_grimmeisen_scholtz.studentmanager_result WHERE exam_id_id = '%s'",
-     examID
+      examID
     )
   gradeFrame <- dbGetQuery(con, sqlStatement)
   if (is.data.frame(gradeFrame) && ncol(gradeFrame) > 0) {
@@ -27,6 +27,3 @@ getGradesOfExam <- function(con, examID) {
     0
   }
 }
-  
-
-
