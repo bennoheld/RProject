@@ -7,15 +7,20 @@ con <- connecttodb()
 
 #Do the reports!
 # - Alle Noten eines bestimmten Studierenden
+Noteneinesstudenten <- getGradesOfStudent(con, '45734')
 
 # - Notenschnitt eines bestimmten Studierenden
-result <- getMeanOfStudent(con, '755528')
+#result <- getMeanOfStudent(con, '45734')
 
 # - Alle Noten einer bestimmten Prüfung
+#Noteneinerprüfung <- getGradesOfExam(con, '1000')
 
 # - Notenschnitt einer bestimmten Prüfung
+#Notenschnitt <- getMeanOfExam(con, '1000')
 
 # - Notenschnitte aller Studierenden
+print('function call')
+Notenallerstudenten <- getMeanOfAllStudents(con)
 
 # - Median der Notenschnitte
 
