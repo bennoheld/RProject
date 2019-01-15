@@ -1,10 +1,12 @@
+library(ggplot2)
+library(dplyr)
+
 source("R/dbconnect.R")
 source("R/student.R")
 source("R/exam.R")
 source("R/visualization.R")
 
-library(ggplot2)
-library(dplyr)
+
 #connect to DB
 con <- connecttodb()
 
@@ -16,7 +18,7 @@ Noteneinesstudenten <- getGradesOfStudent(con, '45734')
 #result <- getMeanOfStudent(con, '45734')
 
 # - Alle Noten einer bestimmten Prüfung
-Noteneinerprüfung <- getGradesOfExam(con, '1000')
+Noteneinerpruefung <- getGradesOfExam(con, '1000')
 
 # - Notenschnitt einer bestimmten Prüfung
 #Notenschnitt <- getMeanOfExam(con, '1000')
