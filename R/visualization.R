@@ -1,6 +1,86 @@
-createOfBoxplot <- function(dataFrame) {
+#Noten einer bestimmten Prüfung
+createOfBoxplot <- function(dataFrame, xlabel) {
   p <-
-    ggplot(data = data.frame(Noteneinerprüfung), aes(x = "dataFrame", y = dataFrame)) +
-    geom_boxplot()
+    ggplot(data = data.frame(Noteneinerprüfung), aes(x = "Prüfungsnummer", y = dataFrame)) +
+    geom_boxplot() +
+    xlab('Matrikelnummer')+
+    ylab('Notenschnitt')+
+    stat_boxplot(geom='errorbar', width=0.5)+
+    scale_y_continuous(limits=c(1,5), breaks=seq(1,5,0.1),expand=c(0,0))
   p
+}
+
+#Notenschnitt aller Studierenden Jitter
+createOfJitter <- function(dataFrame) {
+  p <- 
+  ggplot(data = data.frame(Notenallerstudenten), aes(x= dataFrame$Student, y = dataFrame$Mean)) +
+    geom_jitter(position=position_jitter(0), cex=2)+
+    xlab('Matrikelnummer')+
+    ylab('Notenschnitt')+
+    scale_y_continuous(limits=c(1,5), breaks=seq(1,5,0.1))
+  return(p)  
+}
+
+#Notenschnitt aller Studierenden Bar
+createOfBar <-function(dataFrame) {
+  p <-
+  ggplot(data = data.frame(Notenallerstudenten), aes(x= dataFrame$Student, y = dataFrame$Mean)) +
+    geom_bar(stat="identity")+
+    xlab('Matrikelnummer')+
+    ylab('Notenschnitt')+
+    scale_y_continuous(limits=c(0,5), breaks = seq(0, 5, by = 0.1))
+  #p2
+  return(p)
+}
+
+#REPORT
+createReport <-function(dataFrame) {
+  BarPlot <- createOfBar(dataFrame)
+  JitterPlot <- createOfJitter(dataFrame)
+  multiplot(BarPlot, JitterPlot, cols=1)
+}
+# Multiple plot function
+#
+# ggplot objects can be passed in ..., or to plotlist (as a list of ggplot objects)
+# - cols:   Number of columns in layout
+# - layout: A matrix specifying the layout. If present, 'cols' is ignored.
+#
+# If the layout is something like matrix(c(1,2,3,3), nrow=2, byrow=TRUE),
+# then plot 1 will go in the upper left, 2 will go in the upper right, and
+# 3 will go all the way across the bottom.
+#
+multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
+  library(grid)
+  
+  # Make a list from the ... arguments and plotlist
+  plots <- c(list(...), plotlist)
+  
+  numPlots = length(plots)
+  
+  # If layout is NULL, then use 'cols' to determine layout
+  if (is.null(layout)) {
+    # Make the panel
+    # ncol: Number of columns of plots
+    # nrow: Number of rows needed, calculated from # of cols
+    layout <- matrix(seq(1, cols * ceiling(numPlots/cols)),
+                     ncol = cols, nrow = ceiling(numPlots/cols))
+  }
+  
+  if (numPlots==1) {
+    print(plots[[1]])
+    
+  } else {
+    # Set up the page
+    grid.newpage()
+    pushViewport(viewport(layout = grid.layout(nrow(layout), ncol(layout))))
+    
+    # Make each plot, in the correct location
+    for (i in 1:numPlots) {
+      # Get the i,j matrix positions of the regions that contain this subplot
+      matchidx <- as.data.frame(which(layout == i, arr.ind = TRUE))
+      
+      print(plots[[i]], vp = viewport(layout.pos.row = matchidx$row,
+                                      layout.pos.col = matchidx$col))
+    }
+  }
 }

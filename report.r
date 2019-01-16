@@ -16,14 +16,14 @@ Noteneinesstudenten <- getGradesOfStudent(con, '45734')
 #result <- getMeanOfStudent(con, '45734')
 
 # - Alle Noten einer bestimmten Prüfung
-Noteneinerprüfung <- getGradesOfExam(con, '1000')
+#Noteneinerprüfung <- getGradesOfExam(con, '1000')
 
 # - Notenschnitt einer bestimmten Prüfung
-#Notenschnitt <- getMeanOfExam(con, '1000')
+#Notenschnitt <- getMeanOfExam(con, '1001')
 
 # - Notenschnitte aller Studierenden
 Notenallergeprüftenstudenten <- getMeanOfAllStudents(con)
-#Notenallerstudenten <- getMeanOfAllStudents(con, removeZeroes = FALSE)
+Notenallerstudenten <- getMeanOfAllStudents(con, removeZeroes = FALSE)
 
 # - Median der Notenschnitte
 #Medianderschnitte <- getMedianOfGrades(con)
@@ -35,12 +35,11 @@ Notenallergeprüftenstudenten <- getMeanOfAllStudents(con)
 #  - Noten einer bestimmten Prüfung
 #createOfBoxplot(Noteneinerprüfung)
 #boxplot(Noteneinesstudenten)
+#createOfBoxplot(Notenallergeprüftenstudenten$Mean)
 #  - Notenschnitte aller Studierenden
-createOfBoxplot(Notenallergeprüftenstudenten$Mean)
-
-
-
-
+#createOfJitter(Notenallerstudenten)
+#createOfBar(Notenallerstudenten)
+createReport(Notenallerstudenten)
 #disconnect from DB
 if (dbDisconnect(conn = con)) {
   print('SUCCESFULLY DISCONNECTED FROM DB!')
