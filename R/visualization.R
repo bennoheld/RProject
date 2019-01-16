@@ -1,9 +1,9 @@
 #Noten einer bestimmten Prüfung
-createOfBoxplot <- function(dataFrame, xlabel) {
+createOfBoxplot <- function(gradeList) {
   p <-
-    ggplot(data = data.frame(Noteneinerprüfung), aes(x = "Prüfungsnummer", y = dataFrame)) +
+    ggplot(data = data.frame(gradeList), aes(x = "Prüfungsnummer", y = gradeList$Grades)) +
     geom_boxplot() +
-    xlab('Matrikelnummer')+
+    xlab(gradeList$Exam)+
     ylab('Notenschnitt')+
     stat_boxplot(geom='errorbar', width=0.5)+
     scale_y_continuous(limits=c(1,5), breaks=seq(1,5,0.1),expand=c(0,0))
@@ -13,18 +13,18 @@ createOfBoxplot <- function(dataFrame, xlabel) {
 #Notenschnitt aller Studierenden Jitter
 createOfJitter <- function(dataFrame) {
   p <- 
-  ggplot(data = data.frame(Notenallerstudenten), aes(x= dataFrame$Student, y = dataFrame$Mean)) +
+  ggplot(data = dataFrame, aes(x= dataFrame$Student, y = dataFrame$Mean)) +
     geom_jitter(position=position_jitter(0), cex=2)+
     xlab('Matrikelnummer')+
     ylab('Notenschnitt')+
-    scale_y_continuous(limits=c(1,5), breaks=seq(1,5,0.1))
+    scale_y_continuous(limits=c(1,5.1), breaks=seq(1,5,0.1))
   return(p)  
 }
 
 #Notenschnitt aller Studierenden Bar
 createOfBar <-function(dataFrame) {
   p <-
-  ggplot(data = data.frame(Notenallerstudenten), aes(x= dataFrame$Student, y = dataFrame$Mean)) +
+  ggplot(data = dataFrame, aes(x= dataFrame$Student, y = dataFrame$Mean)) +
     geom_bar(stat="identity")+
     xlab('Matrikelnummer')+
     ylab('Notenschnitt')+

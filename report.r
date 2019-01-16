@@ -32,3 +32,12 @@ meanAllStudents <- getMeanOfAllStudents(allData)
 medianAllStudents <- getMedianOfAllStudents(allData)
 
 standardDeviationAllStudents <- getSdOfAllStudents(allData)
+
+#createOfBoxplot(gradesSpecificExam) 
+
+#createOfJitter(meanAllStudents)
+
+#createOfBar(meanAllStudents)
+
+createReport(meanAllStudents)
+
