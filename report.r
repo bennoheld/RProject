@@ -27,6 +27,8 @@ meanSpecificExam <-
 
 meanAllStudents <- getMeanOfAllStudents(allData)
 
+# gradesAllStudents <- getGradesOfAllStudents(allData)
+
 medianAllStudents <- getMedianOfAllStudents(allData)
 
 standardDeviationAllStudents <- getSdOfAllStudents(allData)

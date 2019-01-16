@@ -39,6 +39,24 @@ getMeanOfAllStudents <- function(data) {
   return (studentmean)
 }
 
+getGradesOfAllStudents <- function(data) {
+  studentmean <-
+    data.frame(
+      Student = character(),
+      Grades = c(0),
+      stringsAsFactors = FALSE
+    )
+  uniqueStudents <- data$StudentFrame$matriculation_number
+  for (matriculationNumber in uniqueStudents) {
+    gradeList <- getGradesOfStudent(data$ResultFrame, matriculationNumber)$Grades
+    if(TRUE) {
+      studentmean[nrow(studentmean) + 1, ] = list(as.character(matriculationNumber), gradeList)
+    }
+  }
+  
+  return (studentmean)
+}
+
 getMedianOfAllStudents <- function(data) {
   median <- 0
   
