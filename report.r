@@ -11,13 +11,19 @@ options(encoding = "UTF-8")
 allData <- getAllData()
 
 
-gradesSpecificStudent <- getGradesOfStudent(allData[[3]], matriculationNumber = '75528')
+gradesSpecificStudent <-
+  getGradesOfStudent(allData$ResultFrame, matriculationNumber = '75528')
+gradesSpecificStudent$Student
 
-meanSpecificStudent <- getMeanOfStudent(allData[[3]], matriculationNumber = '75528')
+meanSpecificStudent <-
+  getMeanOfStudent(allData$ResultFrame, matriculationNumber = '75528')
 
-gradesSpecificExam <- getGradesOfExam(allData[[3]], examID = '1000')
+gradesSpecificExam <-
+  getGradesOfExam(allData$ResultFrame, examID = '1000')
+gradesSpecificExam$Exam
 
-meanSpecificExam <- getMeanOfExam(allData[[3]], examID = '1000')
+meanSpecificExam <-
+  getMeanOfExam(allData$ResultFrame, examID = '1000')
 
 meanAllStudents <- getMeanOfAllStudents(allData)
 

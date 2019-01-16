@@ -14,9 +14,10 @@ getMeanOfStudent <- function(resultsFrame, matriculationNumber) {
 # Alle Noten eines bestimmten Studenten
 getGradesOfStudent <- function(resultsFrame, matriculationNumber) {
   if (is.data.frame(resultsFrame) && ncol(resultsFrame) ==  4) {
-    return (subset(resultsFrame, matriculation_number_id == matriculationNumber)$grade)
+    allGrades <- subset(resultsFrame, matriculation_number_id == matriculationNumber)$grade
+    return (list(Student = matriculationNumber, Grades = allGrades))
   } else {
-    return (numeric(0))
+    return (list(Student = matriculationNumber, Grades = numeric(0)))
   }
 }
 
@@ -27,9 +28,9 @@ getMeanOfAllStudents <- function(data) {
       Mean = double(),
       stringsAsFactors = FALSE
     )
-  uniqueStudents <- data[[1]]$matriculation_number
+  uniqueStudents <- data$StudentFrame$matriculation_number
   for (matriculationNumber in uniqueStudents) {
-    meanOfStudent <- getMeanOfStudent(data[[3]], matriculationNumber)
+    meanOfStudent <- getMeanOfStudent(data$ResultFrame, matriculationNumber)
     if(!is.nan(meanOfStudent) && is.numeric(meanOfStudent)) {
       studentmean[nrow(studentmean) + 1, ] = list(as.character(matriculationNumber), meanOfStudent)
     }

@@ -10,8 +10,9 @@ getMeanOfExam <- function(resultFrame, examID) {
 # Alle Noten einer bestimmten Prüfung
 getGradesOfExam <- function(resultFrame, examID) {
   if (is.data.frame(resultFrame) && ncol(resultFrame) ==  4) {
-    return (subset(resultFrame, exam_id_id == examID)$grade)
+    allGrades <- subset(resultFrame, exam_id_id == examID)$grade
+    return (list(Exam = examID, Grades = allGrades))
   } else {
-    return (numeric(0))
+    return (list(Exam = examID, Grades = numeric(0)))
   }
 }

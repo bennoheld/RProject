@@ -61,5 +61,5 @@ getAllData <- function() {
     print('ERROR WHILE DISCONNECTING FROM DB!')
   }
   
-  return (list(studentFrame, examFrame, resultFrame))
+  return (list(StudentFrame = studentFrame, ExamFrame = examFrame, ResultFrame = resultFrame))
 }
