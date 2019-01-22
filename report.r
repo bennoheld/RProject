@@ -8,36 +8,48 @@ source("R/visualization.R")
 
 options(encoding = "UTF-8")
 
-allData <- getAllData()
-
-
-gradesSpecificStudent <-
-  getGradesOfStudent(allData$ResultFrame, matriculationNumber = '75528')
-gradesSpecificStudent$Student
-
-meanSpecificStudent <-
-  getMeanOfStudent(allData$ResultFrame, matriculationNumber = '75528')
+allData <- LoadAllData()
 
 gradesSpecificExam <-
-  getGradesOfExam(allData$ResultFrame, examID = '1000')
-gradesSpecificExam$Exam
+  GetGradesOfExam(allData$ResultFrame, examID = '1000')
 
 meanSpecificExam <-
-  getMeanOfExam(allData$ResultFrame, examID = '1000')
+  CalculateMeanOfExam(allData$ResultFrame, examID = '1000')
 
-meanAllStudents <- getMeanOfAllStudents(allData)
+gradesSpecificStudent <-
+  GetGradesOfStudent(allData$ResultFrame, matriculationNumber = '75528')
 
-# gradesAllStudents <- getGradesOfAllStudents(allData)
+meanSpecificStudent <-
+  CalculateMeanOfStudent(allData$ResultFrame, matriculationNumber = '75528')
 
-medianAllStudents <- getMedianOfAllStudents(allData)
+meanAllStudents <- CalculateMeanOfAllStudents(allData$ResultFrame)
 
-standardDeviationAllStudents <- getSdOfAllStudents(allData)
+medianAllStudents <-
+  CalculateMedianOfAllStudents(allData$ResultFrame)
 
-#createOfBoxplot(gradesSpecificExam) 
+standardDeviationAllStudents <-
+  CalculateStandardDeviationOfAllStudents(allData$ResultFrame)
 
-#createOfJitter(meanAllStudents)
+CreateBoxPlot(gradesSpecificExam)
 
-#createOfBar(meanAllStudents)
+CreateJitterPlot(meanAllStudents)
 
-createReport(meanAllStudents)
+CreateBarChart(meanAllStudents)
 
+CreateReport(meanAllStudents)
+
+boxPlot <-
+  ggplot(
+    data = allData$ResultFrame,
+    aes(
+      x = allData$ResultFrame$matriculation_number_id,
+      y = allData$ResultFrame$grade
+    )
+  ) +
+  geom_boxplot(aes(group = (
+    factor(allData$ResultFrame$matriculation_number_id)
+  ))) +
+  xlab(allData$ResultFrame$matriculation_number_id) +
+  ylab('Notenschnitt')
+
+boxPlot
