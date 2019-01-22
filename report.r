@@ -1,6 +1,7 @@
 library(ggplot2)
 library(dplyr)
 
+# import business logic functions
 source("R/dbconnect.R")
 source("R/student.R")
 source("R/exam.R")
@@ -8,8 +9,10 @@ source("R/visualization.R")
 
 options(encoding = "UTF-8")
 
+# load Data
 allData <- LoadAllData()
 
+# calculate key indicators
 gradesSpecificExam <-
   GetGradesOfExam(allData$ResultFrame, examID = '1000')
 
@@ -30,26 +33,9 @@ medianAllStudents <-
 standardDeviationAllStudents <-
   CalculateStandardDeviationOfAllStudents(allData$ResultFrame)
 
+# Charts
 CreateBoxPlot(gradesSpecificExam)
 
 CreateJitterPlot(meanAllStudents)
 
-CreateBarChart(meanAllStudents)
-
-CreateReport(meanAllStudents)
-
-boxPlot <-
-  ggplot(
-    data = allData$ResultFrame,
-    aes(
-      x = allData$ResultFrame$matriculation_number_id,
-      y = allData$ResultFrame$grade
-    )
-  ) +
-  geom_boxplot(aes(group = (
-    factor(allData$ResultFrame$matriculation_number_id)
-  ))) +
-  xlab(allData$ResultFrame$matriculation_number_id) +
-  ylab('Notenschnitt')
-
-boxPlot
+CreateStudentsPerformanceOverview(allData$ResultFrame)

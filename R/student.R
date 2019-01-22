@@ -78,7 +78,7 @@ CalculateMeanOfAllStudents <- function(resultFrame) {
       )
     
     uniqueStudents <-
-      resultFrame$matriculation_number_id  # get list of unique students with results
+      unique(resultFrame$matriculation_number_id)  # get list of unique students with results
     for (matriculationNumber in uniqueStudents) {
       meanOfStudent <-
         CalculateMeanOfStudent(resultFrame, matriculationNumber)  # get mean for each student
